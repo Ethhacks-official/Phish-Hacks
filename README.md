@@ -34,11 +34,11 @@ It will create Phishing page which could be used within and outside the network.
 - Create Phishing Page outside the network using serveo:
 It will create Phishing page which could be used within and outside the network. Serveo is free service to expose your Localhost to internet using ssh tunneling. It is similar to Localhost.run.   Tool will setup ssh key and then using it will create public url using serveo service. Tool will start capturing credentials and will show on screen.
 - Phishing Page Options:
-Phishing Page creation menu is used to create phishing page. It includes 3 different method to setup the captive portal.
-1. Captive Portal of Login Page of Website using URL:
+Phishing Page creation menu is used to create phishing page. It includes 3 different method to setup the phishing page.
+1. Phishing Page of Login Page of Website using URL:
 It requires the url of login page of target website to create the phishing page exactly similar to that login page. It will also ask for name, it could be random and is just to differentiate websites with different name in apache2 folder.
 
-Note: You must be connected to internet to create Phishing page with url. Phishing page of some websites like FaceBook or Google could not be created using url. So, try using already created captive portal of famous websites.
+Note: You must be connected to internet to create Phishing page with url. Phishing page of some websites like FaceBook or Google could not be created using url. So, try using already created phishing page of famous websites.
 
 2. Phishing Page of famous websites:
 It include login pages of 43 famous websites. By selecting one of these,it will create phishing page of login page of website.
