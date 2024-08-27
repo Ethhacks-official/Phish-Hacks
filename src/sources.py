@@ -272,7 +272,7 @@ class Sources:
                 print(f"An error occurred: {e}")
                 port = input("Typing port that apache2 is using like 80 or 8080 --> ")
 
-            cmd = ['ssh','-i', key_name,'-R', f'{port}:localhost:{port}','localhost.run',"--","--output","json"]
+            cmd = ['ssh','-i', key_name,'-R', f'80:localhost:{port}','localhost.run',"--","--output","json"]
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             while True:
                 output = process.stdout.readline()
@@ -331,7 +331,7 @@ class Sources:
                 print(f"An error occurred: {e}")
                 port = input("Typing port that apache2 is using like 80 or 8080 --> ")
 
-            cmd = ['ssh','-i', key_name,'-R', f'{port}:localhost:{port}','serveo.net']
+            cmd = ['ssh','-i', key_name,'-R', f'80:localhost:{port}','serveo.net']
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             while True:
                 output = process.stdout.readline()
@@ -363,4 +363,32 @@ class Sources:
         except Exception as e:
             print(f"Error in port forwarding: {e}")
             return None
+        
+    def port_apache(self):
+        ports = []
+        try:
+            with open("/etc/apache2/ports.conf", 'r') as file:
+                for line in file:
+                    if line.startswith('Listen'):
+                        match = re.search(r'Listen\s+(\d+)', line)
+                        if match:
+                            port = match.group(1)
+                            ports.append(port)
+            if len(ports) > 1:
+                print("Found Ports: ")
+                for port in ports:
+                    print(port)
+                port = input("Select by typing the port like 80 or 8080 --> ")
+            elif len(ports) == 1:
+                port = ports[0]
+            elif len(ports) < 1:
+                port = input("Typing port that apache2 is using like 80 or 8080 --> ")
+        except FileNotFoundError:
+            print(f"Error: The file /etc/apache2/ports.conf was not found.")
+            port = input("Typing port that apache2 is using like 80 or 8080 --> ")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            port = input("Typing port that apache2 is using like 80 or 8080 --> ")
+
+        return port
         

