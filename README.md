@@ -33,6 +33,8 @@ It will create Phishing page which could be used within and outside the network.
 It will create Phishing page which could be used within and outside the network. Ngrok is one of the famous service to expose your Localhost to internet. Free ngrok token is not recommended for Phishing page as it warns the target before going to phishing page which will reduce the success of phishing. For ngrok, you will need first to signup to ngrok website and will need ngrok auth-token to provide to this tool in order for this attack to work.
 - Create Phishing Page outside the network using serveo:
 It will create Phishing page which could be used within and outside the network. Serveo is free service to expose your Localhost to internet using ssh tunneling. It is similar to Localhost.run.   Tool will setup ssh key and then using it will create public url using serveo service. Tool will start capturing credentials and will show on screen.
+- Create Phishing Page for your onlne hosting or domain:
+It will create Phishing page which could be used for your online hosting and domain. You need to place these file in your online hosting and whenever user login using credentials, the login credentials will be saved in login_data,txt file that will be present in files provided by this tool. If you found that credentials are not being saved in login_data.txt file, try providing all permissions of read, write and execute to login_data.txt file in your online hosting platform.
 - Phishing Page Options:
 Phishing Page creation menu is used to create phishing page. It includes 3 different method to setup the phishing page.
 1. Phishing Page of Login Page of Website using URL:

