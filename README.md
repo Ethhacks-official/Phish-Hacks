@@ -59,4 +59,8 @@ sudo python3 main.py
 First program will try to install the required linux tools. It will try to install these using "apt" manager. It your linux don't have "apt" manager then try to install below listed tools manually as without these tools it will not work.
 
 - Apache2
-    
+
+
+## License
+
+This project is licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 2.1 - see the [LICENSE] file for details.
